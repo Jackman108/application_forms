@@ -24,13 +24,32 @@ return new class extends Migration
             $table->text('about')->nullable();
             $table->timestamps();
         });
+
+        // Таблица для хранения файлов
+        Schema::create('profile_files', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade');
+            $table->string('path');
+            $table->timestamps();
+        });
+
+        // Таблица для хранения дополнительных телефонов
+        Schema::create('additional_phones', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade');
+            $table->string('phone', 255);
+            $table->timestamps();
+        });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::dropIfExists('additional_phones');
+        Schema::dropIfExists('profile_files');
         Schema::dropIfExists('profiles');
     }
 };

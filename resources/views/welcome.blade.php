@@ -11,6 +11,11 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
 
     <!-- Styles -->
+    @push('styles')
+        <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    @endpush
+
+    @livewireStyles
     <style>
         /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
         *, ::after, ::before {
@@ -779,7 +784,6 @@
             }
         }
     </style>
-    <livewire:styles />
 </head>
 <body class="antialiased">
 <div
