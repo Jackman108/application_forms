@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('country_code')->nullable();
             $table->string('marital_status')->nullable();
             $table->text('about')->nullable();
+            $table->boolean('agreed_to_terms')->default(false);
             $table->timestamps();
         });
 

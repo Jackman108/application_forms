@@ -1,59 +1,59 @@
 <div>
     <!-- /resources/views/livewire/form-component.blade.php -->
     <!-- Форма для ввода данных -->
-    <form method="POST" action="{{ route('submit.form') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('submit.form') }}" wire:submit.prevent="submitForm" enctype="multipart/form-data">
         @csrf
         <!-- Поле Имя -->
-        <div class="mb - 3">
-            <label for="first_name" class="form - label">Имя</label>
-            <input type="text" class="form - control" id="first_name" wire:model.defer="first_name">
+        <div class="mb-3">
+            <label for="first_name" class="form-label">Имя</label>
+            <input type="text" class="form-control" id="first_name" wire:model.defer="first_name">
             @error('first_name') <span class="text-danger">{{ $message }}</span> @enderror
 
         </div>
 
         <!-- Поле Фамилия -->
-        <div class="mb - 3">
-            <label for="last_name" class="form - label">Фамилия</label>
-            <input type="text" class="form - control" id="last_name" wire:model.defer="last_name">
+        <div class="mb-3">
+            <label for="last_name" class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="last_name" wire:model.defer="last_name">
             @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         <!-- Поле Отчество -->
-        <div class="mb - 3">
-            <label for="middle_name" class="form - label">Отчество</label>
-            <input type="text" class="form - control" id="middle_name" wire:model.defer="middle_name">
+        <div class="mb-3">
+            <label for="middle_name" class="form-label">Отчество</label>
+            <input type="text" class="form-control" id="middle_name" wire:model.defer="middle_name">
             @error('middle_name') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
         <!-- Поле Дата рождения -->
         <div class="mb - 3">
-            <label for="birthdate" class="form - label">Дата рождения</label>
-            <input type="date" class="form - control" id="birthdate" wire:model.defer="birthdate">
+            <label for="birthdate" class="form-label">Дата рождения</label>
+            <input type="date" class="form-control" id="birthdate" wire:model.defer="birthdate">
             @error('birthdate') <span class="text-danger">{{ $message }}</span> @enderror
 
         </div>
 
         <!-- Поле Email -->
-        <div class="mb - 3">
-            <label for="email" class="form - label">Email</label>
-            <input type="email" class="form - control" id="email" wire:model.defer="email">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" wire:model.defer="email">
             @error('email') <span class="text-danger">{{ $message }}</span> @enderror
 
         </div>
 
         <!-- Поле Код страны -->
-        <div class="mb - 3">
-            <label for="country_code" class="form - label">Код страны</label>
-            <select class="form - select" id="country_code" wire:model.defer="country_code">
-                <option value=" + 375">+375</option>
-                <option value=" + 7">+7</option>
+        <div class="mb-3">
+            <label for="country_code" class="form-label">Код страны</label>
+            <select class="form-select" id="country_code" wire:model.defer="country_code">
+                <option value="+375">+375</option>
+                <option value="+7">+7</option>
             </select>
         </div>
 
         <!-- Поле Телефон -->
-        <div class="mb - 3">
-            <label for="phone" class="form - label">Телефон</label>
-            <input type="tel" class="form - control" id="phone" wire:model.defer="phone">
+        <div class="mb-3">
+            <label for="phone" class="form-label">Телефон</label>
+            <input type="tel" class="form-control" id="phone" wire:model.defer="phone">
             @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
 
@@ -71,9 +71,9 @@
 
 
         <!-- Поле Семейное положение -->
-        <div class="mb - 3">
-            <label for="marital_status" class="form - label">Семейное положение</label>
-            <select class="form - select" id="marital_status" wire:model.defer="marital_status">
+        <div class="mb-3">
+            <label for="marital_status" class="form-label">Семейное положение</label>
+            <select class="form-select" id="marital_status" wire:model.defer="marital_status">
                 <option value="Холост / не замужем">Холост/не замужем</option>
                 <option value="Женат / замужем">Женат/замужем</option>
                 <option value="В разводе">В разводе</option>
@@ -84,21 +84,28 @@
         </div>
 
         <!-- Поле О себе -->
-        <div class="mb - 3">
-            <label for="about" class="form - label">О себе</label>
-            <textarea class="form - control" id="about" rows="3" wire:model.defer="about"></textarea>
+        <div class="mb-3">
+            <label for="about" class="form-label">О себе</label>
+            <textarea class="form-control" id="about" rows="3" wire:model.defer="about"></textarea>
             @error('about') <span class="text-danger">{{ $message }}</span> @enderror
 
         </div>
 
         <!-- Поле Файлы -->
-        <div class="mb - 3">
-            <label for="files" class="form - label">Файлы</label>
-            <input type="file" class="form - control" id="files" wire:model="files" multiple>
+        <div class="mb-3">
+            <label for="files" class="form-label">Файлы</label>
+            <input type="file" class="form-control" id="files" wire:model="files" multiple>
             @error('files.*') <span class="text-danger">{{ $message }}</span> @enderror
 
         </div>
 
+        <!-- Чекбокс согласия с правилами -->
+        <div class="mb-3">
+            <label>
+                <input type="checkbox" wire:model="agreed_to_terms" required>
+                Я ознакомился с правилами
+            </label>
+        </div>
         <button type="button" class="btn btn-secondary" wire:click="addAdditionalPhone()">Добавить телефон</button>
 
         <button type="submit" class="btn btn-primary">Отправить</button>

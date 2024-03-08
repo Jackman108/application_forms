@@ -20,26 +20,14 @@ class Profile extends Model
         'country_code',
         'marital_status',
         'about',
+        'agreed_to_terms',
     ];
-
-
-
-    // Метод для сохранения файлов
-    public function saveFiles(array $files): void
-    {
-        foreach ($files as $file) {
-            $path = $file->store('files');
-            // Сохраняем путь к файлу в базе данных
-            $this->files()->create(['path' => $path]);
-        }
-    }
 
     public function additionalPhones(): HasMany
     {
         return $this->hasMany(AdditionalPhone::class);
     }
 
-    // Отношение "один-ко-многим" с моделью File
     public function files(): HasMany
     {
         return $this->hasMany(ProfileFile::class);

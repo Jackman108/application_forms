@@ -12,7 +12,6 @@ class ProfileFile extends Model
 
     protected $fillable = ['profile_id', 'path'];
 
-    // Отношение к модели Profile
     public function profile(): BelongsTo
     {
         return $this->belongsTo(Profile::class);

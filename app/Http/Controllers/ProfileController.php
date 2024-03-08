@@ -3,29 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Validators\ProfileValidator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'birthdate' => 'required|date',
-            'email' => 'nullable|email|required_without:phone',
-            'phone' => 'nullable|string|required_without:email',
-            'country_code' => 'nullable|string',
-            'marital_status' => 'nullable|string',
-            'about' => 'nullable|string|max:1000',
-            'files.*' => 'nullable|file|max:5120|mimes:jpg,png,pdf',
-            'additional_phones.*.phone' => 'nullable|string',
-        ]);
+        $validator = Validator::make($request->all(), ProfileValidator::getValidationRules());
 
-        $profile = Profile::create($validatedData);
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator->errors());
+        }
 
-        // Обработка и сохранение файлов, если они есть
+        $profile = new Profile();
+        $profile->fill($request->all());
+        $profile->save();
+
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
                 $path = $file->store('public/files');
@@ -33,7 +29,6 @@ class ProfileController extends Controller
             }
         }
 
-        // Обработка и сохранение дополнительных телефонных номеров, если они есть
         if ($additionalPhones = $request->input('additional_phones')) {
             foreach ($additionalPhones as $phone) {
                 if (!empty($phone)) {
