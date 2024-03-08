@@ -1,0 +1,65 @@
+/* public/css/form.css */
+
+/* Стили для формы */
+.font-semibold {
+    font-weight: 600;
+}
+
+.input {
+    appearance: none;
+    background-color: #edf2f7;
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    width: 100%;
+}
+
+.text-red-600 {
+    color: #e53e3e;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #007bff;
+}
+
+/* Стили для обработки успешных сообщений */
+.bg-green-100 {
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.border-green-500 {
+    border-color: #4caf50;
+}
+
+.text-green-700 {
+    color: #0a6640;
+}
+
+/* Стили для обработки ошибок */
+.bg-red-100 {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+}
+
+.border-red-500 {
+    border-color: #e3342f;
+}
+
+.text-red-700 {
+    color: #842029;
+}

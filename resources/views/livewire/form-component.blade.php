@@ -1,113 +1,171 @@
 <div>
     <!-- /resources/views/livewire/form-component.blade.php -->
     <!-- Форма для ввода данных -->
-    <form method="POST" action="{{ route('submit.form') }}" wire:submit.prevent="submitForm" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('submit.form') }}" wire:submit.prevent="submitForm"
+          enctype="multipart/form-data">
         @csrf
         <!-- Поле Имя -->
         <div class="mb-3">
-            <label for="first_name" class="form-label">Имя</label>
-            <input type="text" class="form-control" id="first_name" wire:model.defer="first_name">
-            @error('first_name') <span class="text-danger">{{ $message }}</span> @enderror
-
+            <div class="col-md-6">
+                <label for="first_name" class="form-label">Имя</label>
+                <input type="text" class="form-control @error('first_name') is-invalid @enderror" id="first_name"
+                       wire:model.defer="first_name">
+                @error('first_name')
+                <div class="invalid-feedback">{{ 'Поле имени обязательно для заполнения.' }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле Фамилия -->
         <div class="mb-3">
-            <label for="last_name" class="form-label">Фамилия</label>
-            <input type="text" class="form-control" id="last_name" wire:model.defer="last_name">
-            @error('last_name') <span class="text-danger">{{ $message }}</span> @enderror
+            <div class="col-md-6">
+                <label for="last_name" class="form-label">Фамилия</label>
+                <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name"
+                       wire:model.defer="last_name">
+                @error('last_name')
+                <div class="invalid-feedback">{{ 'Поле фамилии обязательно для заполнения.' }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле Отчество -->
         <div class="mb-3">
-            <label for="middle_name" class="form-label">Отчество</label>
-            <input type="text" class="form-control" id="middle_name" wire:model.defer="middle_name">
-            @error('middle_name') <span class="text-danger">{{ $message }}</span> @enderror
+            <div class="col-md-6">
+                <label for="middle_name" class="form-label">Отчество</label>
+                <input type="text" class="form-control @error('middle_name') is-invalid @enderror" id="middle_name"
+                       wire:model.defer="middle_name">
+                @error('middle_name')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле Дата рождения -->
-        <div class="mb - 3">
-            <label for="birthdate" class="form-label">Дата рождения</label>
-            <input type="date" class="form-control" id="birthdate" wire:model.defer="birthdate">
-            @error('birthdate') <span class="text-danger">{{ $message }}</span> @enderror
-
+        <div class="mb-3">
+            <div class="col-md-6">
+                <label for="birthdate" class="form-label">Дата рождения</label>
+                <input type="date" class="form-control @error('birthdate') is-invalid @enderror" id="birthdate"
+                       wire:model.defer="birthdate">
+                @error('birthdate')
+                <div class="invalid-feedback">{{ 'Поле даты рождения является обязательным.' }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле Email -->
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" wire:model.defer="email">
-            @error('email') <span class="text-danger">{{ $message }}</span> @enderror
-
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                       wire:model.defer="email">
+                @error('email')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
 
-        <!-- Поле Код страны -->
-        <div class="mb-3">
-            <label for="country_code" class="form-label">Код страны</label>
-            <select class="form-select" id="country_code" wire:model.defer="country_code">
-                <option value="+375">+375</option>
-                <option value="+7">+7</option>
-            </select>
-        </div>
+        <!-- Поля Код страны и Телефон -->
+        <div class="mb-3 row">
+            <!-- Поле Код страны -->
+            <div class="col-auto">
+                <label for="country_code" class="form-label">Код страны</label>
+                <select class="form-select @error('country_code') is-invalid @enderror" id="country_code"
+                        wire:model.defer="country_code">
+                    <option value="+375">+375</option>
+                    <option value="+7">+7</option>
+                </select>
+                @error('country_code')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
 
-        <!-- Поле Телефон -->
-        <div class="mb-3">
-            <label for="phone" class="form-label">Телефон</label>
-            <input type="tel" class="form-control" id="phone" wire:model.defer="phone">
-            @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
+            <!-- Поле Телефон -->
+            <div class="col-md-3">
+                <label for="phone" class="form-label">Телефон</label>
+                <input type="tel" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                       wire:model.defer="phone">
+                @error('phone')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- Кнопка добавления телефона -->
+            <div class="col-auto align-self-end">
+                <button type="button" class="btn btn-secondary" wire:click="addAdditionalPhone">+</button>
+            </div>
         </div>
 
         <!-- Поле добавления дополнительных номеров телефона -->
-        @if(isset($additional_phones))
-            @foreach($additional_phones as $index => $phone)
-                <div class="mb-3">
-                    <label class="form-label">Дополнительный телефон {{ $index + 1 }}</label>
-                    <input type="tel" class="form-control" wire:model="additional_phones.{{ $index }}.phone">
-                    @error('additional_phones.'.$index.'.phone') <span
-                        class="text-danger">{{ $message }}</span> @enderror
-                </div>
-            @endforeach
+
+        @if(count($additional_phones) > 1)
+            <div class="mb-3 col">
+                @for($index = 1; $index < count($additional_phones); $index++)
+                    <div class="col-md-3" style="margin-left: calc(100% - 90%);">
+                        <input type="tel" class="form-control" wire:model="additional_phones.{{ $index }}.phone">
+                        <label class="form-label">Доп. телефон {{ $index + 1 }}</label>
+                        @error('additional_phones.'.$index.'.phone') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                @endfor
+            </div>
         @endif
+
 
 
         <!-- Поле Семейное положение -->
         <div class="mb-3">
-            <label for="marital_status" class="form-label">Семейное положение</label>
-            <select class="form-select" id="marital_status" wire:model.defer="marital_status">
-                <option value="Холост / не замужем">Холост/не замужем</option>
-                <option value="Женат / замужем">Женат/замужем</option>
-                <option value="В разводе">В разводе</option>
-                <option value="Вдовец / вдова">Вдовец/вдова</option>
-            </select>
-            @error('marital_status') <span class="text-danger">{{ $message }}</span> @enderror
-
+            <div class="col-md-6">
+                <label for="marital_status" class="form-label">Семейное положение</label>
+                <select class="form-select @error('marital_status') is-invalid @enderror" id="marital_status"
+                        wire:model.defer="marital_status">
+                    <option value="Холост / не замужем">Холост/не замужем</option>
+                    <option value="Женат / замужем">Женат/замужем</option>
+                    <option value="В разводе">В разводе</option>
+                    <option value="Вдовец / вдова">Вдовец/вдова</option>
+                </select>
+                @error('marital_status')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле О себе -->
         <div class="mb-3">
-            <label for="about" class="form-label">О себе</label>
-            <textarea class="form-control" id="about" rows="3" wire:model.defer="about"></textarea>
-            @error('about') <span class="text-danger">{{ $message }}</span> @enderror
-
+            <div class="col-md-6">
+                <label for="about" class="form-label">О себе</label>
+                <textarea class="form-control @error('about') is-invalid @enderror" id="about"
+                          style="max-height: 12em; overflow-y: auto;"
+                          wire:model.defer="about"></textarea>
+                @error('about')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
 
         <!-- Поле Файлы -->
         <div class="mb-3">
-            <label for="files" class="form-label">Файлы</label>
-            <input type="file" class="form-control" id="files" wire:model="files" multiple>
-            @error('files.*') <span class="text-danger">{{ $message }}</span> @enderror
-
+            <div class="col-md-6">
+                <label for="files" class="form-label">Файлы</label>
+                <input type="file" class="form-control @error('files.*') is-invalid @enderror" id="files"
+                       wire:model="files"
+                       multiple>
+                @error('files.*')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
 
         <!-- Чекбокс согласия с правилами -->
-        <div class="mb-3">
-            <label>
-                <input type="checkbox" wire:model="agreed_to_terms" required>
-                Я ознакомился с правилами
-            </label>
+        <div class="mb-3 form-check">
+            <div class="col-md-6">
+                <input type="checkbox" class="form-check-input @error('agreed_to_terms') is-invalid @enderror"
+                       id="agreed_to_terms" wire:model="agreed_to_terms">
+                <label class="form-check-label" for="agreed_to_terms">Я ознакомился с правилами</label>
+                @error('agreed_to_terms')
+                <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
         </div>
-        <button type="button" class="btn btn-secondary" wire:click="addAdditionalPhone()">Добавить телефон</button>
 
-        <button type="submit" class="btn btn-primary">Отправить</button>
+        <button type="submit" class="btn btn-primary" @if($errors->any()) disabled @endif>Отправить</button>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        form.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>

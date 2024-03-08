@@ -27,9 +27,25 @@ class FormComponent extends Component
     public array $additional_phones = [['phone' => '']];
     public bool $agreed_to_terms = false;
 
+    protected array $rules = [];
+
+    public function mount(): void
+    {
+        $this->rules = ProfileValidator::getValidationRules();
+        $this->rules['phone'] .= '|required_without:email';
+        $this->rules['email'] .= '|required_without:phone';
+    }
+
     public function submitForm(): void
     {
+
         $this->validate(ProfileValidator::getValidationRules());
+
+        if (empty($this->email) && empty($this->phone)) {
+            $this->addError('email', 'Введите почту или телефон');
+            $this->addError('phone', 'Введите почту или телефон');
+            return;
+        }
 
         $profile = new Profile([
             'first_name' => $this->first_name,
@@ -47,13 +63,12 @@ class FormComponent extends Component
 
         if (!empty($this->files)) {
             foreach ($this->files as $file) {
-                $filename = Str::random(10).'.'.$file->getClientOriginalExtension();
+                $filename = Str::random(10) . '.' . $file->getClientOriginalExtension();
                 $path = $file->storeAs('public/files', $filename);
                 $profile->files()->create(['path' => $path]);
             }
         }
 
-        // Обработка и сохранение дополнительных телефонных номеров
         foreach ($this->additional_phones as $additionalPhone) {
             if (!empty($additionalPhone['phone'])) {
                 $profile->additionalPhones()->create(['phone' => $additionalPhone['phone']]);
@@ -61,13 +76,15 @@ class FormComponent extends Component
         }
 
         $this->reset();
-        session()->flash('message', 'Профиль успешно создан.');    }
+        session()->flash('message', 'Профиль успешно создан.');
+    }
 
     public function addAdditionalPhone(): void
     {
-        $this->additional_phones[] = ['phone' => ''];
+        if (count($this->additional_phones) < 5) {
+            $this->additional_phones[] = ['phone' => ''];
+        }
     }
-
 
     public function render(): Factory|View
     {
