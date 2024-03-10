@@ -9,19 +9,29 @@
     @livewireStyles
 </head>
 <body class="bg-light">
-<div class="container py-5">
+<section class="container flex">
     @if (session()->has('message'))
-        <div class="alert alert-success">
-            {{ session('message') }}
+        <div>
+            @livewire('form-success')
         </div>
+    @else
+        @livewire('form-component')
     @endif
-
-    <livewire:form-component />
-</div>
-
-@livewireScripts
-
-<!-- Bootstrap JS Bundle with Popper -->
+</section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        form.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+    });
+</script>
+@livewireScripts
 </body>
 </html>

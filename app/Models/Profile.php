@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder|Profile where(string $column, mixed $operator = null, mixed $value = null, string $boolean = 'and')
+ * @method static Profile create(array $attributes = [])
+ */
 class Profile extends Model
 {
     use HasFactory;
