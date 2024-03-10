@@ -13,7 +13,7 @@ class ProfileValidator
             'birthdate' => 'required|date',
             'email' => 'nullable|email',
             'phone' => 'nullable|digits_between:9,10',
-            'country_code' => 'nullable|string',
+            'country_code' => 'nullable|string|required_with:phone',
             'marital_status' => 'nullable|string',
             'about' => 'nullable|string|max:1000',
             'files.*' => 'nullable|file|max:5120|mimes:jpg,png,pdf',
